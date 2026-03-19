@@ -1,0 +1,171 @@
+{
+  "seo": {
+    "title": "Working Group Title | Working Group Number",
+    "description": "Short description for the working group page."
+  },
+  "branding": {
+    "mark": "WG00",
+    "title": "Working Group Title",
+    "subtitle": "Organization or series subtitle",
+    "topbarAction": {
+      "label": "Primary CTA",
+      "href": "https://example.com/join"
+    }
+  },
+  "navigation": [
+    {
+      "href": "#activities",
+      "label": "Activities"
+    },
+    {
+      "href": "#meetings",
+      "label": "Meetings"
+    },
+    {
+      "href": "#resources",
+      "label": "Resources"
+    },
+    {
+      "href": "#committee",
+      "label": "Committee"
+    }
+  ],
+  "hero": {
+    "eyebrow": "Working Group Number",
+    "title": "Working Group Title",
+    "description": "Hero mission statement or overview paragraph.",
+    "actions": [
+      {
+        "label": "View live page",
+        "href": "https://example.com/live-page",
+        "icon": "externalLink"
+      },
+      {
+        "label": "Explore the content",
+        "href": "#activities",
+        "icon": "arrowRight"
+      }
+    ],
+    "highlights": [
+      {
+        "value": "3",
+        "label": "active projects"
+      },
+      {
+        "value": "Oct 12",
+        "label": "next meeting"
+      },
+      {
+        "value": "10",
+        "label": "committee members"
+      }
+    ],
+    "snapshot": {
+      "title": "Current snapshot",
+      "items": [
+        {
+          "label": "Access",
+          "description": "Explain access rules here."
+        },
+        {
+          "label": "Focus",
+          "description": "Explain the current focus here."
+        },
+        {
+          "label": "Opportunity",
+          "description": "Explain a design or content opportunity here."
+        }
+      ]
+    }
+  },
+  "sections": {
+    "activities": {
+      "id": "activities",
+      "eyebrow": "Live Workstreams",
+      "title": "Section headline",
+      "description": "Section support copy.",
+      "items": [
+        {
+          "title": "Activity title",
+          "description": "Activity description.",
+          "icon": "scale"
+        }
+      ]
+    },
+    "meetings": {
+      "id": "meetings",
+      "eyebrow": "Meetings",
+      "title": "Section headline",
+      "description": "Section support copy.",
+      "tracks": [
+        {
+          "title": "Upcoming Meeting",
+          "tone": "upcoming",
+          "summary": "Short summary for the card.",
+          "meetings": [
+            {
+              "title": "Meeting title",
+              "date": "Date and time range",
+              "href": "https://example.com/meeting"
+            }
+          ]
+        }
+      ]
+    },
+    "resources": {
+      "id": "resources",
+      "eyebrow": "Resources",
+      "title": "Section headline",
+      "description": "Section support copy.",
+      "cards": [
+        {
+          "title": "Resource title",
+          "status": "Status label",
+          "description": "Resource description.",
+          "href": "https://example.com/resource",
+          "cta": "Open resource",
+          "icon": "fileText"
+        }
+      ],
+      "aside": {
+        "eyebrow": "Sidebar eyebrow",
+        "title": "Sidebar headline",
+        "description": "Sidebar description.",
+        "actions": [
+          {
+            "label": "Sidebar action",
+            "href": "https://example.com/action",
+            "icon": "externalLink"
+          }
+        ]
+      }
+    },
+    "committee": {
+      "id": "committee",
+      "eyebrow": "Leadership",
+      "title": "Section headline",
+      "description": "Section support copy.",
+      "groups": [
+        {
+          "role": "Chair",
+          "people": [
+            {
+              "name": "Person Name",
+              "href": "https://example.com/profile"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "footer": {
+    "eyebrow": "Footer eyebrow",
+    "description": "Footer summary copy.",
+    "contacts": [
+      {
+        "label": "contact@example.com",
+        "href": "mailto:contact@example.com"
+      }
+    ]
+  }
+}

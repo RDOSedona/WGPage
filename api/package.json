@@ -1,0 +1,17 @@
+{
+  "name": "intportal-api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=20.19.0 <21"
+  },
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/data-tables": "^13.3.0",
+    "@azure/functions": "^4.7.3"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "platform": {
+    "apiRuntime": "node:20"
+  },
+  "routes": [
+    {
+      "route": "/api/request-types",
+      "methods": ["GET"],
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/api/request-types",
+      "methods": ["POST"],
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/request-types/*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/requests",
+      "methods": ["POST"],
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/api/requests",
+      "methods": ["GET"],
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/requests/*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/staff-access/self",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/staff-access",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/staff-access/*",
+      "allowedRoles": ["authenticated"]
+    }
+  ],
+  "responseOverrides": {
+    "401": {
+      "statusCode": 302,
+      "redirect": "/.auth/login/aad"
+    }
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/assets/*",
+      "/*.css",
+      "/*.js",
+      "/*.svg",
+      "/*.png",
+      "/*.jpg",
+      "/*.jpeg",
+      "/*.gif",
+      "/*.webp",
+      "/*.ico",
+      "/*.json"
+    ]
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "same-origin"
+  }
+}

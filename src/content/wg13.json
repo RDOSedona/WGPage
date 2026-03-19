@@ -1,0 +1,325 @@
+{
+  "seo": {
+    "title": "AI and the Law | Working Group 13",
+    "description": "A modern React rebuild of The Sedona Conference Working Group 13 page for AI and the Law."
+  },
+  "branding": {
+    "mark": "WG13",
+    "title": "AI and the Law",
+    "subtitle": "The Sedona Conference working group page",
+    "topbarAction": {
+      "label": "Become a member",
+      "href": "https://www.thesedonaconference.org/node/8"
+    }
+  },
+  "navigation": [
+    {
+      "href": "#activities",
+      "label": "Activities"
+    },
+    {
+      "href": "#meetings",
+      "label": "Meetings"
+    },
+    {
+      "href": "#resources",
+      "label": "Resources"
+    },
+    {
+      "href": "#committee",
+      "label": "Committee"
+    }
+  ],
+  "hero": {
+    "eyebrow": "Working Group 13",
+    "title": "AI and the Law",
+    "description": "Consistent with The Sedona Conference mission of moving the law forward in a reasoned and just way, WG13 frames the legal issues presented by AI, analyzes how AI affects law and legal practice, and articulates principles and best practices for AI development and implementation.",
+    "actions": [
+      {
+        "label": "View the live page",
+        "href": "https://www.thesedonaconference.org/wgs/wg13",
+        "icon": "externalLink"
+      },
+      {
+        "label": "Explore the content",
+        "href": "#activities",
+        "icon": "arrowRight"
+      }
+    ],
+    "highlights": [
+      {
+        "value": "4",
+        "label": "active drafting tracks"
+      },
+      {
+        "value": "Apr 9-10",
+        "label": "next annual meeting in 2026"
+      },
+      {
+        "value": "15",
+        "label": "committee members and advisors"
+      }
+    ],
+    "snapshot": {
+      "title": "Current snapshot",
+      "items": [
+        {
+          "label": "Next meeting",
+          "value": "Apr 9-10, 2026",
+          "description": "The Annual Meeting 2026 is the next published WG13 event and the clearest date members should plan around."
+        },
+        {
+          "label": "Active work",
+          "value": "4 drafting tracks",
+          "description": "Definitions, AI governance, the regulatory crosswalk, and the custom Sedona AI initiative are all active right now."
+        },
+        {
+          "label": "Best way in",
+          "value": "Join WG13",
+          "description": "Members receive meeting notices, drafting-team applications, announcements, and alerts when drafts are posted for comment."
+        }
+      ]
+    }
+  },
+  "sections": {
+    "activities": {
+      "id": "activities",
+      "eyebrow": "Live Workstreams",
+      "title": "Current Activities",
+      "description": "The original content is strong; the main issue is presentation. A card-based structure makes each drafting effort scannable without losing detail.",
+      "items": [
+        {
+          "title": "Consensus Definitions Relating to AI and the Law",
+          "description": "The drafting team is developing consensus definitions for terms at the intersection of AI and legal practice.",
+          "icon": "scale"
+        },
+        {
+          "title": "How-To Guide for AI Governance",
+          "description": "This workstream combines principles, implementation practices, and planning for future regulation into actionable guidance.",
+          "icon": "shieldCheck"
+        },
+        {
+          "title": "AI and the Law Regulatory Crosswalk",
+          "description": "The crosswalk maps where current laws already address AI concerns and where targeted amendments or new legislation may be needed.",
+          "icon": "bookOpen"
+        },
+        {
+          "title": "Develop and Document Custom Sedona AI",
+          "description": "This initiative explores a Sedona AI tool built with LLM and RAG patterns while documenting the product-development process for the legal community.",
+          "icon": "sparkles"
+        }
+      ]
+    },
+    "meetings": {
+      "id": "meetings",
+      "eyebrow": "Meetings",
+      "title": "Meetings",
+      "description": "Separating the next scheduled gathering from the archive makes the page feel active and helps members find the right next action quickly.",
+      "tracks": [
+        {
+          "title": "Upcoming Meeting",
+          "tone": "upcoming",
+          "summary": "The next published WG13 event.",
+          "meetings": [
+            {
+              "title": "The Sedona Conference Working Group 13 Annual Meeting 2026",
+              "date": "Thursday, Apr 09, 2026 - 08:30 am to Friday, Apr 10, 2026 - 02:00 pm",
+              "href": "https://www.thesedonaconference.org/WG13_AM26"
+            }
+          ]
+        },
+        {
+          "title": "Past Meetings",
+          "tone": "past",
+          "summary": "Recent meetings preserved as a compact archive.",
+          "meetings": [
+            {
+              "title": "The Sedona Conference Working Group 13 Midyear Meeting 2025",
+              "date": "Thursday, Sep 11, 2025 - 08:45 am to Friday, Sep 12, 2025 - 01:00 pm",
+              "href": "https://www.thesedonaconference.org/WG13_Midyear_Meeting_2025"
+            },
+            {
+              "title": "The Sedona Conference Working Group 13 on Artificial Intelligence and the Law: Inaugural Meeting 2025",
+              "date": "Thursday, Jan 16, 2025 - 08:30 am to Friday, Jan 17, 2025 - 03:00 pm",
+              "href": "https://www.thesedonaconference.org/WG13_Inaugural_Meeting_2025"
+            }
+          ],
+          "footerLink": {
+            "label": "View all past meetings",
+            "href": "https://www.thesedonaconference.org/AI%20and%20the%20Law%20-%20Working%20Group%2013"
+          }
+        }
+      ]
+    },
+    "resources": {
+      "id": "resources",
+      "eyebrow": "Resources",
+      "title": "Resources",
+      "description": "A modern build can treat empty content, restricted content, and evergreen links differently instead of rendering each one with the same generic Drupal shell.",
+      "cards": [
+        {
+          "title": "Members-only workspace",
+          "status": "Members only",
+          "description": "Working group materials, announcements, and draft-comment notices are available after sign-in for active members.",
+          "href": "https://www.thesedonaconference.org/group/424",
+          "cta": "Join or leave the group",
+          "icon": "lockKeyhole"
+        },
+        {
+          "title": "Publication open for public comment",
+          "status": "No active item",
+          "description": "No WG13 publication is currently open for public comment. The live page remains the best place to monitor the next release.",
+          "href": "https://www.thesedonaconference.org/wgs/wg13",
+          "cta": "Monitor the live page",
+          "icon": "fileText"
+        },
+        {
+          "title": "Updates and announcements",
+          "status": "Quiet right now",
+          "description": "The exported page shows no current updates or announcements, which makes this a good candidate for a cleaner empty state.",
+          "href": "https://www.thesedonaconference.org/wgs/wg13",
+          "cta": "Check the current listing",
+          "icon": "messageSquare"
+        },
+        {
+          "title": "Publications",
+          "status": "Reference hub",
+          "description": "The original page exposes a publications section but no rendered cards, so this version turns it into a clear callout instead of a blank block.",
+          "href": "https://www.thesedonaconference.org/publications",
+          "cta": "Browse publications",
+          "icon": "bookOpen"
+        },
+        {
+          "title": "Reference library",
+          "status": "Restricted use",
+          "description": "Reference materials are for educational use by working group members and are not intended to be copied or republished.",
+          "href": "https://www.thesedonaconference.org/group/424",
+          "cta": "Review membership access",
+          "icon": "shieldCheck"
+        }
+      ],
+      "aside": {
+        "eyebrow": "Membership note",
+        "title": "Members-only content can be modeled cleanly in React",
+        "description": "Instead of embedding login reminders inside a generic content block, this page pulls access guidance into a focused panel with direct actions.",
+        "actions": [
+          {
+            "label": "Join or leave the group",
+            "href": "https://www.thesedonaconference.org/group/424",
+            "icon": "externalLink"
+          },
+          {
+            "label": "Send publication comments",
+            "href": "mailto:comments@sedonaconference.org",
+            "icon": "mail"
+          }
+        ]
+      }
+    },
+    "committee": {
+      "id": "committee",
+      "eyebrow": "Leadership",
+      "title": "Steering Committee",
+      "description": "Breaking the roster into role-based cards keeps the hierarchy clear and gives each profile link proper breathing room.",
+      "groups": [
+        {
+          "role": "Co-Chairs",
+          "people": [
+            {
+              "name": "Maura R. Grossman",
+              "href": "https://www.thesedonaconference.org/bio/1200"
+            },
+            {
+              "name": "Niloy Ray",
+              "href": "https://www.thesedonaconference.org/bio/3749"
+            }
+          ]
+        },
+        {
+          "role": "Judicial Advisor",
+          "people": [
+            {
+              "name": "Hon. Jill Presser",
+              "href": "https://www.thesedonaconference.org/bio/242167"
+            }
+          ]
+        },
+        {
+          "role": "Members",
+          "people": [
+            {
+              "name": "Kassi Burns",
+              "href": "https://www.thesedonaconference.org/bio/236177"
+            },
+            {
+              "name": "Stephen Burns",
+              "href": "https://www.thesedonaconference.org/bio/240222"
+            },
+            {
+              "name": "Luc Dahlin",
+              "href": "https://www.thesedonaconference.org/bio/242129"
+            },
+            {
+              "name": "Tara Emory",
+              "href": "https://www.thesedonaconference.org/bio/40766"
+            },
+            {
+              "name": "Emily McIntosh",
+              "href": "https://www.thesedonaconference.org/bio/82463"
+            },
+            {
+              "name": "David Moncure",
+              "href": "https://www.thesedonaconference.org/bio/3751"
+            },
+            {
+              "name": "Dean Pelletier",
+              "href": "https://www.thesedonaconference.org/bio/120593"
+            },
+            {
+              "name": "Matt Powers",
+              "href": "https://www.thesedonaconference.org/bio/39893"
+            },
+            {
+              "name": "Andrew Russell",
+              "href": "https://www.thesedonaconference.org/bio/99047"
+            },
+            {
+              "name": "Joe Shepley",
+              "href": "https://www.thesedonaconference.org/bio/222158"
+            },
+            {
+              "name": "Nichole L. Sterling",
+              "href": "https://www.thesedonaconference.org/bio/102837"
+            },
+            {
+              "name": "Lucky Vidmar",
+              "href": "https://www.thesedonaconference.org/bio/242236"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "footer": {
+    "eyebrow": "About The Sedona Conference",
+    "description": "The Sedona Conference is a nonpartisan, nonprofit research and educational institute dedicated to advancing law and policy through consensus-driven publications and legal education.",
+    "contacts": [
+      {
+        "label": "602-258-4910",
+        "href": "tel:6022584910"
+      },
+      {
+        "label": "info@sedonaconference.org",
+        "href": "mailto:info@sedonaconference.org"
+      },
+      {
+        "label": "cle@sedonaconference.org",
+        "href": "mailto:cle@sedonaconference.org"
+      },
+      {
+        "label": "comments@sedonaconference.org",
+        "href": "mailto:comments@sedonaconference.org"
+      }
+    ]
+  }
+}

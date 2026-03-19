@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Arizona favicon">
+  <rect width="256" height="256" fill="#ffffff" />
+  <path
+    d="M41 34 68 40 88 26 106 36 125 26 146 37 166 24 190 36 216 32 216 222 77 222 63 214 52 216 42 208 44 196 33 188 37 175 27 167 31 152 22 143 28 128 19 117 25 101 18 88 26 74 20 60 27 45 41 34Z"
+    fill="#f79239"
+    stroke="#5c3896"
+    stroke-width="12"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+</svg>
