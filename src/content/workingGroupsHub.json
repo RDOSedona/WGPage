@@ -1,0 +1,58 @@
+{
+  "seo": {
+    "title": "Working Groups | The Sedona Conference",
+    "description": "Browse The Sedona Conference working groups and open the currently available page experiences."
+  },
+  "hero": {
+    "eyebrow": "Browse",
+    "title": "Group Directory",
+    "description": "",
+    "featuredTitle": "WG13 is live now",
+    "featuredDescription": "Open the AI and the Law page to view meetings, current activities, resources, and steering committee details.",
+    "featuredActionLabel": "Open Working Group 13"
+  },
+  "groups": [
+    {
+      "number": "1",
+      "label": "Electronic Document Retention and Production",
+      "status": "locked",
+      "description": "Working Group 1"
+    },
+    {
+      "number": "6",
+      "label": "International Electronic Information Management, Discovery, and Disclosure",
+      "status": "locked",
+      "description": "Working Group 6"
+    },
+    {
+      "number": "7",
+      "label": "Sedona Canada",
+      "status": "locked",
+      "description": "Working Group 7"
+    },
+    {
+      "number": "10",
+      "label": "Patent Litigation Best Practices",
+      "status": "locked",
+      "description": "Working Group 10"
+    },
+    {
+      "number": "11",
+      "label": "Data Security and Privacy Liability",
+      "status": "locked",
+      "description": "Working Group 11"
+    },
+    {
+      "number": "12",
+      "label": "Trade Secrets",
+      "status": "locked",
+      "description": "Working Group 12"
+    },
+    {
+      "number": "13",
+      "label": "AI and the Law",
+      "status": "live",
+      "description": "Working Group 13"
+    }
+  ]
+}

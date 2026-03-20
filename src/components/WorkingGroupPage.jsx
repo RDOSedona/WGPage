@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
+  ArrowLeft,
   ArrowRight,
   BookOpen,
   CalendarDays,
@@ -77,7 +78,7 @@ function SectionHeading({ section }) {
   );
 }
 
-export default function WorkingGroupPage({ content }) {
+export default function WorkingGroupPage({ content, homeHref = null }) {
   const { branding, navigation, hero, sections, footer, seo } = content;
   const committeeGroups = sections.committee.groups ?? [];
   const featuredCommitteeIndex = committeeGroups.reduce((largestIndex, group, index, groups) => {
@@ -129,6 +130,12 @@ export default function WorkingGroupPage({ content }) {
             </span>
           </a>
           <nav className="topbar-nav" aria-label="Section navigation">
+            {homeHref ? (
+              <a className="topbar-home-link" href={homeHref}>
+                <ArrowLeft size={15} aria-hidden="true" />
+                All Groups
+              </a>
+            ) : null}
             {navigation.map((link) => (
               <a key={link.href} href={link.href}>
                 {link.label}

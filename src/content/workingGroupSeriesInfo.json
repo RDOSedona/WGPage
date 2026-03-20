@@ -1,0 +1,30 @@
+{
+  "seo": {
+    "title": "Working Group Series | The Sedona Conference",
+    "description": "Learn about The Sedona Conference Working Group Series and its history, membership program, and mission."
+  },
+  "hero": {
+    "eyebrow": "Working Group Series",
+    "title": "The Sedona Conference Working Group Series",
+    "subtitle": "Authoritative, Meaningful, and Balanced Commentary."
+  },
+  "body": [
+    "The Sedona Conference Working Group Series was launched in 2002 and represents the evolution of The Sedona Conference from a forum for advanced dialogue to an open think-tank confronting some of the most challenging issues faced by our legal system today. The first Working Group (WG1) met on October 17-18, 2002, and was dedicated to the development of guidelines for electronic document retention and production.",
+    "The impact of its first publication, The Sedona Principles: Best Practices Recommendations & Principles for Addressing Electronic Document Production, was immediate and substantial. The Principles was cited in the Advisory Committee on Civil Rules Discovery Subcommittee Report on Electronic Discovery less than a month after publication of the first draft, and was cited in a seminal eDiscovery decision in the Southern District of New York less than a month after that. As noted in the June 2003 issue of Pike & Fischer's Digital Discovery and E-Evidence, \"The Principles...influence is already becoming evident.\" The rest, including enactment of the federal rules on eDiscovery in 2006, is, as they say, history.",
+    "The Sedona Conference Working Group Series Membership Program offers a vehicle for those who wish to support our mission and interact with others interested in tipping point issues in the areas of electronic document retention and production; international electronic information management, discovery, and disclosure; patent damages and patent litigation best practices; data security and privacy liability; and trade secret litigation.",
+    "Membership in the Working Group Series allows any interested jurist, attorney, academic, consultant, or expert to participate in Working Group activities, including brainstorming groups, drafting teams, Working Group meetings, and dialogue on current works-in-progress.",
+    "As a member of the Sedona Conference Working Group Series you will have access to the Working Group Members Only areas of this web site, where member drafts of works-in-progress are posted and available for member comment. If you opt in to the roster for a specific Working Group, you will receive announcements about that particular Working Group's events, notices seeking applications for drafting teams and brainstorming groups, and notices regarding draft works-in-progress open for member comment."
+  ],
+  "actions": [
+    {
+      "label": "Join the Working Group Series",
+      "href": "https://thesedonaconference.org/join",
+      "tone": "primary"
+    },
+    {
+      "label": "Sponsor the Working Group Series",
+      "href": "https://thesedonaconference.org/sponsors",
+      "tone": "secondary"
+    }
+  ]
+}

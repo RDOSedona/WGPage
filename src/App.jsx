@@ -1,9 +1,15 @@
 import { startTransition, useEffect, useState } from 'react';
 import AdminPanel from './components/AdminPanel.jsx';
+import WorkingGroupsHub from './components/WorkingGroupsHub.jsx';
 import WorkingGroupPage from './components/WorkingGroupPage.jsx';
+import WorkingGroupSeriesPage from './components/WorkingGroupSeriesPage.jsx';
 import defaultContent from './content/wg13.json';
+import workingGroupsHubContent from './content/workingGroupsHub.json';
+import workingGroupSeriesInfo from './content/workingGroupSeriesInfo.json';
 
 const STORAGE_KEY = 'wg13-admin-content-v1';
+const WG13_VIEW = 'wg13';
+const SERIES_VIEW = 'series';
 
 function cloneContent(value) {
   return JSON.parse(JSON.stringify(value));
@@ -45,9 +51,40 @@ function loadInitialContent() {
   }
 }
 
+function getBaseHref() {
+  if (typeof window === 'undefined') {
+    return '/';
+  }
+
+  return window.location.pathname;
+}
+
+function getCurrentView() {
+  if (typeof window === 'undefined') {
+    return 'home';
+  }
+
+  const searchParams = new URLSearchParams(window.location.search);
+  const view = searchParams.get('view');
+
+  if (view === WG13_VIEW) {
+    return WG13_VIEW;
+  }
+
+  if (view === SERIES_VIEW) {
+    return SERIES_VIEW;
+  }
+
+  return 'home';
+}
+
 export default function App() {
   const [content, setContent] = useState(loadInitialContent);
   const [adminOpen, setAdminOpen] = useState(false);
+  const currentView = getCurrentView();
+  const homeHref = getBaseHref();
+  const wg13Href = `${getBaseHref()}?view=${WG13_VIEW}`;
+  const seriesHref = `${getBaseHref()}?view=${SERIES_VIEW}`;
 
   useEffect(() => {
     try {
@@ -103,17 +140,30 @@ export default function App() {
 
   return (
     <>
-      <WorkingGroupPage content={content} />
-      <AdminPanel
-        content={content}
-        isOpen={adminOpen}
-        onOpen={() => setAdminOpen(true)}
-        onClose={() => setAdminOpen(false)}
-        onContentChange={handleContentChange}
-        onExportContent={handleExportContent}
-        onImportContent={handleImportContent}
-        onResetContent={handleResetContent}
-      />
+      {currentView === WG13_VIEW ? (
+        <>
+          <WorkingGroupPage content={content} homeHref={homeHref} />
+          <AdminPanel
+            content={content}
+            isOpen={adminOpen}
+            onOpen={() => setAdminOpen(true)}
+            onClose={() => setAdminOpen(false)}
+            onContentChange={handleContentChange}
+            onExportContent={handleExportContent}
+            onImportContent={handleImportContent}
+            onResetContent={handleResetContent}
+          />
+        </>
+      ) : currentView === SERIES_VIEW ? (
+        <WorkingGroupSeriesPage content={workingGroupSeriesInfo} homeHref={homeHref} />
+      ) : (
+        <WorkingGroupsHub
+          content={workingGroupsHubContent}
+          homeHref={homeHref}
+          liveGroupHref={wg13Href}
+          seriesHref={seriesHref}
+        />
+      )}
     </>
   );
 }
