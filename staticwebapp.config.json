@@ -50,7 +50,8 @@
     },
     {
       "route": "/api/working-group-pages/*",
-      "allowedRoles": ["authenticated"]
+      "methods": ["PUT"],
+      "allowedRoles": ["anonymous"]
     }
   ],
   "responseOverrides": {

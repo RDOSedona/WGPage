@@ -9,7 +9,6 @@ import workingGroupsHubContent from './content/workingGroupsHub.json';
 import workingGroupSeriesInfo from './content/workingGroupSeriesInfo.json';
 import {
   fetchWorkingGroupContentFromApi,
-  getWorkingGroupAdminAccess,
   saveWorkingGroupContentToApi,
 } from './lib/workingGroupContentApi.js';
 
@@ -18,11 +17,11 @@ const WG1_VIEW = 'wg1';
 const WG13_VIEW = 'wg13';
 const SERIES_VIEW = 'series';
 const DEFAULT_WORKING_GROUP_VIEW = WG13_VIEW;
+const ADMIN_PANEL_VERSION = '0.2.8';
 const UNLOCK_STORAGE_KEY = 'working-group-access-v1';
 const STORAGE_MODE_CHECKING = 'checking';
 const STORAGE_MODE_LOCAL = 'local';
 const STORAGE_MODE_REMOTE = 'remote';
-const STORAGE_MODE_READ_ONLY = 'read-only';
 const protectedWorkingGroups = {
   [WG13_VIEW]: {
     number: '13',
@@ -156,13 +155,13 @@ export default function App() {
   const isWorkingGroupPage = workingGroupViews.has(currentView);
   const isProtectedWorkingGroup = Boolean(protectedWorkingGroups[currentView]);
   const activeWorkingGroupView = isWorkingGroupPage ? currentView : DEFAULT_WORKING_GROUP_VIEW;
-  const activeWorkingGroup = getWorkingGroupPageConfig(activeWorkingGroupView);
   const [content, setContent] = useState(() => loadInitialContent(activeWorkingGroupView));
+  const [baselineContent, setBaselineContent] = useState(() => loadInitialContent(activeWorkingGroupView));
   const [adminOpen, setAdminOpen] = useState(false);
   const [unlockedViews, setUnlockedViews] = useState(loadUnlockedViews);
   const [requestedProtectedView, setRequestedProtectedView] = useState(null);
   const [storageMode, setStorageMode] = useState(STORAGE_MODE_CHECKING);
-  const [storageNotice, setStorageNotice] = useState('Checking shared Azure storage…');
+  const [storageNotice, setStorageNotice] = useState('Checking shared Azure storage...');
   const [pendingRemoteSave, setPendingRemoteSave] = useState(false);
   const homeHref = getBaseHref();
   const seriesHref = `${homeHref}?view=${SERIES_VIEW}`;
@@ -196,55 +195,42 @@ export default function App() {
     }
 
     let isCancelled = false;
+    const initialContent = loadInitialContent(activeWorkingGroupView);
 
     setPendingRemoteSave(false);
     setStorageMode(STORAGE_MODE_CHECKING);
-    setStorageNotice('Loading working group content…');
+    setStorageNotice('Loading working group content...');
 
     startTransition(() => {
-      setContent(loadInitialContent(activeWorkingGroupView));
+      setContent(initialContent);
+      setBaselineContent(cloneContent(initialContent));
     });
 
-    Promise.all([
-      fetchWorkingGroupContentFromApi(activeWorkingGroupView),
-      getWorkingGroupAdminAccess(),
-    ]).then(([remoteResult, adminAccess]) => {
+    fetchWorkingGroupContentFromApi(activeWorkingGroupView).then((remoteResult) => {
       if (isCancelled) {
         return;
       }
 
       if (remoteResult.available && isValidWorkingGroupContent(remoteResult.content)) {
-        startTransition(() => {
-          setContent(cloneContent(remoteResult.content));
-        });
-      }
+        const remoteContent = cloneContent(remoteResult.content);
 
-      if (remoteResult.available && adminAccess.authorized) {
+        startTransition(() => {
+          setContent(remoteContent);
+          setBaselineContent(cloneContent(remoteContent));
+        });
         setStorageMode(STORAGE_MODE_REMOTE);
-        setStorageNotice('Azure shared storage connected. Changes auto-save for approved staff.');
+        setStorageNotice('Azure shared storage connected. Changes auto-save for everyone in this test environment.');
         return;
       }
 
       if (remoteResult.available) {
-        setStorageMode(STORAGE_MODE_READ_ONLY);
-        setStorageNotice('This page is loading from Azure shared storage. Sign in with an approved staff account to edit.');
+        setStorageMode(STORAGE_MODE_REMOTE);
+        setStorageNotice('Azure shared storage connected. This page is ready for shared test edits.');
         return;
       }
 
-      if (adminAccess.authorized) {
-        setStorageMode(STORAGE_MODE_LOCAL);
-        setStorageNotice('Azure storage is unavailable right now. Changes will stay in this browser until the API is reachable.');
-        return;
-      }
-
-      if (!adminAccess.available) {
-        setStorageMode(STORAGE_MODE_LOCAL);
-        setStorageNotice('Using browser-only draft mode. Deploy the Azure Static Web Apps API to share edits across users.');
-        return;
-      }
-
-      setStorageMode(STORAGE_MODE_READ_ONLY);
-      setStorageNotice('Editing is restricted to approved staff accounts.');
+      setStorageMode(STORAGE_MODE_LOCAL);
+      setStorageNotice('Azure storage is unavailable right now. Changes will stay in this browser until the API is reachable.');
     });
 
     return () => {
@@ -268,7 +254,7 @@ export default function App() {
     let isCancelled = false;
     const timeoutId = window.setTimeout(async () => {
       try {
-        setStorageNotice('Saving changes to Azure shared storage…');
+        setStorageNotice('Saving changes to Azure shared storage...');
         await saveWorkingGroupContentToApi(activeWorkingGroupView, content);
 
         if (isCancelled) {
@@ -276,7 +262,7 @@ export default function App() {
         }
 
         setPendingRemoteSave(false);
-        setStorageNotice('Azure shared storage connected. Changes auto-save for approved staff.');
+        setStorageNotice('Azure shared storage connected. Changes auto-save for everyone in this test environment.');
       } catch (error) {
         if (isCancelled) {
           return;
@@ -284,15 +270,10 @@ export default function App() {
 
         const message = error instanceof Error ? error.message : 'Unable to save working group page.';
         setPendingRemoteSave(false);
-
-        if (/staff sign-in|required|not approved/i.test(message)) {
-          setStorageMode(STORAGE_MODE_READ_ONLY);
-          setStorageNotice('Your staff session can no longer save edits. Sign in again with an approved account.');
-          return;
-        }
-
         setStorageMode(STORAGE_MODE_LOCAL);
-        setStorageNotice('Could not reach Azure shared storage. Changes are staying in this browser for now.');
+        setStorageNotice(
+          `Could not save to Azure shared storage. Changes are staying in this browser for now. ${message}`,
+        );
       }
     }, 650);
 
@@ -317,11 +298,11 @@ export default function App() {
     setPendingRemoteSave(true);
   };
 
-  const handleResetContent = async () => {
+  const handleRevertContent = async () => {
     startTransition(() => {
-      setContent(cloneContent(activeWorkingGroup.defaultContent));
+      setContent(cloneContent(baselineContent));
     });
-    setPendingRemoteSave(true);
+    setPendingRemoteSave(false);
   };
 
   const handleImportContent = async (nextContent) => {
@@ -395,9 +376,7 @@ export default function App() {
     return true;
   };
 
-  const canEditPages =
-    isWorkingGroupPage &&
-    (storageMode === STORAGE_MODE_LOCAL || storageMode === STORAGE_MODE_REMOTE);
+  const canEditPages = isWorkingGroupPage && storageMode !== STORAGE_MODE_CHECKING;
 
   return (
     <>
@@ -413,8 +392,9 @@ export default function App() {
               onContentChange={handleContentChange}
               onExportContent={handleExportContent}
               onImportContent={handleImportContent}
-              onResetContent={handleResetContent}
+              onRevertContent={handleRevertContent}
               statusMessage={storageNotice}
+              version={ADMIN_PANEL_VERSION}
             />
           ) : null}
         </>

@@ -132,8 +132,9 @@ export default function AdminPanel({
   onContentChange,
   onExportContent,
   onImportContent,
-  onResetContent,
+  onRevertContent,
   statusMessage = '',
+  version = '0.2.8',
 }) {
   const [feedback, setFeedback] = useState('Export JSON to keep or share a snapshot of the current page.');
   const pageLabel = content?.branding?.mark ?? content?.branding?.title ?? 'page';
@@ -158,13 +159,13 @@ export default function AdminPanel({
     }
   };
 
-  const handleReset = async () => {
-    if (!window.confirm(`Reset all page edits back to the default ${pageLabel} content?`)) {
+  const handleRevert = async () => {
+    if (!window.confirm(`Revert this page back to the testing baseline for ${pageLabel}?`)) {
       return;
     }
 
-    await onResetContent();
-    setFeedback(`Reset to the default ${pageLabel} content.`);
+    await onRevertContent();
+    setFeedback(`Reverted to the testing baseline for ${pageLabel}.`);
   };
 
   return (
@@ -187,6 +188,7 @@ export default function AdminPanel({
           <div>
             <p className="admin-eyebrow">Page Controls</p>
             <h2>Admin Panel</h2>
+            <p className="admin-version">{`Version ${version}`}</p>
           </div>
           <button className="admin-icon-button" type="button" onClick={onClose}>
             <X size={18} aria-hidden="true" />
@@ -206,9 +208,9 @@ export default function AdminPanel({
             Import JSON
             <input className="admin-file-input" type="file" accept="application/json" onChange={handleImportFile} />
           </label>
-          <button className="admin-toolbar-button" type="button" onClick={handleReset}>
+          <button className="admin-toolbar-button" type="button" onClick={handleRevert}>
             <RefreshCcw size={16} aria-hidden="true" />
-            Reset
+            Revert to Baseline
           </button>
         </div>
 

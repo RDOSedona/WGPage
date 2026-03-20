@@ -1,5 +1,5 @@
 import { app } from "@azure/functions";
-import { requireAllowedStaff } from "../lib/auth.js";
+import { getAuthUserFromRequest } from "../lib/auth.js";
 import { errorResponse, jsonResponse, readJson } from "../lib/http.js";
 import { getWorkingGroupPage, saveWorkingGroupPage } from "../lib/storage.js";
 
@@ -49,11 +49,6 @@ app.http("working-group-pages-save", {
   route: "working-group-pages/{view}",
   authLevel: "anonymous",
   handler: async (request) => {
-    const { access, response } = await requireAllowedStaff(request);
-    if (response) {
-      return response;
-    }
-
     if (!request.params.view) {
       return errorResponse("Working group page view is required.");
     }
@@ -64,7 +59,8 @@ app.http("working-group-pages-save", {
     }
 
     try {
-      const saved = await saveWorkingGroupPage(request.params.view, pageContent, access.email);
+      const user = getAuthUserFromRequest(request);
+      const saved = await saveWorkingGroupPage(request.params.view, pageContent, user?.email ?? "");
       return jsonResponse(saved);
     } catch (error) {
       return errorResponse(error instanceof Error ? error.message : "Unable to save working group page.", 500);
