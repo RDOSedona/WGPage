@@ -57,6 +57,18 @@ function getLinkProps(href = '') {
   return {};
 }
 
+function getHeroTitleClass(title = '') {
+  if (title.length > 34) {
+    return 'hero-title hero-title-long';
+  }
+
+  if (title.length > 20) {
+    return 'hero-title hero-title-medium';
+  }
+
+  return 'hero-title';
+}
+
 function ActionLink({ action, className = 'button button-primary' }) {
   const Icon = action.icon ? getIcon(action.icon, ArrowRight) : null;
 
@@ -160,7 +172,7 @@ export default function WorkingGroupPage({ content, homeHref = null }) {
               <span className="eyebrow">{hero.eyebrow}</span>
               <span className="hero-lead-line" />
             </div>
-            <h1>{hero.title}</h1>
+            <h1 className={getHeroTitleClass(hero.title)}>{hero.title}</h1>
             <p className="hero-text">{hero.description}</p>
             <div className="hero-actions">
               {hero.actions.map((action, index) => (
@@ -250,14 +262,20 @@ export default function WorkingGroupPage({ content, homeHref = null }) {
                   </div>
                 </div>
                 <div className="meeting-list">
-                  {track.meetings.map((meeting) => (
+                  {(track.tone === 'past' ? track.meetings.slice(0, 3) : track.meetings).map((meeting) => (
                     <article className="meeting-card" key={meeting.title}>
                       <h4>{meeting.title}</h4>
                       <p>{meeting.date}</p>
-                      <a href={meeting.href} {...getLinkProps(meeting.href)}>
-                        Open event details
-                        <ExternalLink size={15} aria-hidden="true" />
-                      </a>
+                      {meeting.href ? (
+                        <a href={meeting.href} {...getLinkProps(meeting.href)}>
+                          {meeting.linkLabel ?? 'Open event details'}
+                          <ExternalLink size={15} aria-hidden="true" />
+                        </a>
+                      ) : (
+                        <span className="text-link text-link-muted">
+                          {meeting.linkLabel ?? 'Details coming soon'}
+                        </span>
+                      )}
                     </article>
                   ))}
                 </div>
@@ -289,10 +307,14 @@ export default function WorkingGroupPage({ content, homeHref = null }) {
                     </div>
                     <h3>{card.title}</h3>
                     <p>{card.description}</p>
-                    <a href={card.href} {...getLinkProps(card.href)}>
-                      {card.cta}
-                      <ExternalLink size={15} aria-hidden="true" />
-                    </a>
+                    {card.href ? (
+                      <a href={card.href} {...getLinkProps(card.href)}>
+                        {card.cta}
+                        <ExternalLink size={15} aria-hidden="true" />
+                      </a>
+                    ) : (
+                      <span className="text-link text-link-muted">{card.cta}</span>
+                    )}
                   </motion.article>
                 );
               })}
@@ -343,9 +365,13 @@ export default function WorkingGroupPage({ content, homeHref = null }) {
                     <ul className="committee-list">
                       {group.people.map((person) => (
                         <li key={person.name}>
-                          <a href={person.href} {...getLinkProps(person.href)}>
-                            {person.name}
-                          </a>
+                          {person.href ? (
+                            <a href={person.href} {...getLinkProps(person.href)}>
+                              {person.name}
+                            </a>
+                          ) : (
+                            <span className="committee-person">{person.name}</span>
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -377,9 +403,13 @@ export default function WorkingGroupPage({ content, homeHref = null }) {
                 <ul className="committee-list committee-list-featured">
                   {featuredCommitteeGroup.people.map((person) => (
                     <li key={person.name}>
-                      <a href={person.href} {...getLinkProps(person.href)}>
-                        {person.name}
-                      </a>
+                      {person.href ? (
+                        <a href={person.href} {...getLinkProps(person.href)}>
+                          {person.name}
+                        </a>
+                      ) : (
+                        <span className="committee-person">{person.name}</span>
+                      )}
                     </li>
                   ))}
                 </ul>

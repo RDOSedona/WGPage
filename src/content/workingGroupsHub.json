@@ -5,7 +5,7 @@
   },
   "hero": {
     "eyebrow": "Browse",
-    "title": "Group Directory",
+    "title": "Working Groups",
     "description": "",
     "featuredTitle": "WG13 is live now",
     "featuredDescription": "Open the AI and the Law page to view meetings, current activities, resources, and steering committee details.",
@@ -15,7 +15,7 @@
     {
       "number": "1",
       "label": "Electronic Document Retention and Production",
-      "status": "locked",
+      "status": "live",
       "description": "Working Group 1"
     },
     {

@@ -3,13 +3,38 @@ import AdminPanel from './components/AdminPanel.jsx';
 import WorkingGroupsHub from './components/WorkingGroupsHub.jsx';
 import WorkingGroupPage from './components/WorkingGroupPage.jsx';
 import WorkingGroupSeriesPage from './components/WorkingGroupSeriesPage.jsx';
-import defaultContent from './content/wg13.json';
+import wg1DefaultContent from './content/wg1.json';
+import wg13DefaultContent from './content/wg13.json';
 import workingGroupsHubContent from './content/workingGroupsHub.json';
 import workingGroupSeriesInfo from './content/workingGroupSeriesInfo.json';
 
-const STORAGE_KEY = 'wg13-admin-content-v1';
+const HOME_VIEW = 'home';
+const WG1_VIEW = 'wg1';
 const WG13_VIEW = 'wg13';
 const SERIES_VIEW = 'series';
+const DEFAULT_WORKING_GROUP_VIEW = WG13_VIEW;
+const UNLOCK_STORAGE_KEY = 'working-group-access-v1';
+const protectedWorkingGroups = {
+  [WG13_VIEW]: {
+    number: '13',
+    password: 'TSC',
+  },
+};
+
+const workingGroupPages = {
+  [WG1_VIEW]: {
+    number: '1',
+    storageKey: 'wg1-admin-content-v1',
+    defaultContent: wg1DefaultContent,
+  },
+  [WG13_VIEW]: {
+    number: '13',
+    storageKey: 'wg13-admin-content-v1',
+    defaultContent: wg13DefaultContent,
+  },
+};
+
+const workingGroupViews = new Set(Object.keys(workingGroupPages));
 
 function cloneContent(value) {
   return JSON.parse(JSON.stringify(value));
@@ -32,7 +57,13 @@ function isValidWorkingGroupContent(value) {
   );
 }
 
-function loadInitialContent() {
+function getWorkingGroupPageConfig(view) {
+  return workingGroupPages[view] ?? workingGroupPages[DEFAULT_WORKING_GROUP_VIEW];
+}
+
+function loadInitialContent(view) {
+  const { storageKey, defaultContent } = getWorkingGroupPageConfig(view);
+
   if (typeof window === 'undefined') {
     return cloneContent(defaultContent);
   }
@@ -51,6 +82,25 @@ function loadInitialContent() {
   }
 }
 
+function loadUnlockedViews() {
+  if (typeof window === 'undefined') {
+    return {};
+  }
+
+  try {
+    const raw = window.sessionStorage.getItem(UNLOCK_STORAGE_KEY);
+
+    if (!raw) {
+      return {};
+    }
+
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
 function getBaseHref() {
   if (typeof window === 'undefined') {
     return '/';
@@ -61,38 +111,86 @@ function getBaseHref() {
 
 function getCurrentView() {
   if (typeof window === 'undefined') {
-    return 'home';
+    return HOME_VIEW;
   }
 
   const searchParams = new URLSearchParams(window.location.search);
   const view = searchParams.get('view');
 
-  if (view === WG13_VIEW) {
-    return WG13_VIEW;
-  }
-
   if (view === SERIES_VIEW) {
     return SERIES_VIEW;
   }
 
-  return 'home';
+  if (view && workingGroupViews.has(view)) {
+    return view;
+  }
+
+  return HOME_VIEW;
 }
 
 export default function App() {
-  const [content, setContent] = useState(loadInitialContent);
-  const [adminOpen, setAdminOpen] = useState(false);
   const currentView = getCurrentView();
+  const isWorkingGroupPage = workingGroupViews.has(currentView);
+  const isProtectedWorkingGroup = Boolean(protectedWorkingGroups[currentView]);
+  const activeWorkingGroupView = isWorkingGroupPage ? currentView : DEFAULT_WORKING_GROUP_VIEW;
+  const activeWorkingGroup = getWorkingGroupPageConfig(activeWorkingGroupView);
+  const [content, setContent] = useState(() => loadInitialContent(activeWorkingGroupView));
+  const [adminOpen, setAdminOpen] = useState(false);
+  const [unlockedViews, setUnlockedViews] = useState(loadUnlockedViews);
+  const [requestedProtectedView, setRequestedProtectedView] = useState(null);
   const homeHref = getBaseHref();
-  const wg13Href = `${getBaseHref()}?view=${WG13_VIEW}`;
-  const seriesHref = `${getBaseHref()}?view=${SERIES_VIEW}`;
+  const seriesHref = `${homeHref}?view=${SERIES_VIEW}`;
+  const groupHrefs = Object.fromEntries(
+    Object.entries(workingGroupPages).map(([view, config]) => [config.number, `${homeHref}?view=${view}`]),
+  );
+  const protectedViewByNumber = Object.fromEntries(
+    Object.entries(protectedWorkingGroups).map(([view, config]) => [config.number, view]),
+  );
+  const protectedGroupNumbers = new Set(Object.values(protectedWorkingGroups).map((config) => config.number));
+  const isBlockedProtectedView = isProtectedWorkingGroup && !unlockedViews[currentView];
+  const protectedPromptView = requestedProtectedView ?? (isBlockedProtectedView ? currentView : null);
+  const protectedPromptNumber = protectedPromptView
+    ? protectedWorkingGroups[protectedPromptView]?.number ?? workingGroupPages[protectedPromptView]?.number
+    : null;
+  const protectedPromptGroup = protectedPromptNumber
+    ? workingGroupsHubContent.groups.find((group) => group.number === protectedPromptNumber) ?? null
+    : null;
+  const lockPrompt =
+    protectedPromptView && protectedPromptNumber
+      ? {
+          view: protectedPromptView,
+          number: protectedPromptNumber,
+          label: protectedPromptGroup?.label ?? `Working Group ${protectedPromptNumber}`,
+        }
+      : null;
 
   useEffect(() => {
+    if (!isWorkingGroupPage) {
+      return;
+    }
+
+    startTransition(() => {
+      setContent(loadInitialContent(activeWorkingGroupView));
+    });
+  }, [activeWorkingGroupView, isWorkingGroupPage]);
+
+  useEffect(() => {
+    if (!isWorkingGroupPage) {
+      return;
+    }
+
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+      window.localStorage.setItem(activeWorkingGroup.storageKey, JSON.stringify(content));
     } catch {
       // Ignore storage failures and keep the page usable.
     }
-  }, [content]);
+  }, [activeWorkingGroup.storageKey, content, isWorkingGroupPage]);
+
+  useEffect(() => {
+    if (isBlockedProtectedView) {
+      setRequestedProtectedView(currentView);
+    }
+  }, [currentView, isBlockedProtectedView]);
 
   const handleContentChange = (updater) => {
     setContent((previous) => {
@@ -104,11 +202,11 @@ export default function App() {
 
   const handleResetContent = async () => {
     startTransition(() => {
-      setContent(cloneContent(defaultContent));
+      setContent(cloneContent(activeWorkingGroup.defaultContent));
     });
 
     try {
-      window.localStorage.removeItem(STORAGE_KEY);
+      window.localStorage.removeItem(activeWorkingGroup.storageKey);
     } catch {
       // Ignore storage failures and keep the page usable.
     }
@@ -131,16 +229,62 @@ export default function App() {
     const dateStamp = new Date().toISOString().slice(0, 10);
 
     link.href = url;
-    link.download = `wg13-content-${dateStamp}.json`;
+    link.download = `${activeWorkingGroupView}-content-${dateStamp}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
   };
 
+  const handleProtectedGroupRequest = (groupNumber) => {
+    const targetView = protectedViewByNumber[groupNumber];
+
+    if (!targetView) {
+      return;
+    }
+
+    setRequestedProtectedView(targetView);
+  };
+
+  const handleLockClose = () => {
+    setRequestedProtectedView(null);
+
+    if (isBlockedProtectedView) {
+      window.location.assign(homeHref);
+    }
+  };
+
+  const handleLockSubmit = (view, candidatePassword) => {
+    const expectedPassword = protectedWorkingGroups[view]?.password;
+
+    if (!expectedPassword || candidatePassword !== expectedPassword) {
+      return false;
+    }
+
+    const nextUnlockedViews = {
+      ...unlockedViews,
+      [view]: true,
+    };
+
+    try {
+      window.sessionStorage.setItem(UNLOCK_STORAGE_KEY, JSON.stringify(nextUnlockedViews));
+    } catch {
+      // Ignore storage failures and keep the page usable.
+    }
+
+    setUnlockedViews(nextUnlockedViews);
+    setRequestedProtectedView(null);
+
+    if (currentView !== view) {
+      window.location.assign(`${homeHref}?view=${view}`);
+    }
+
+    return true;
+  };
+
   return (
     <>
-      {currentView === WG13_VIEW ? (
+      {isWorkingGroupPage && !isBlockedProtectedView ? (
         <>
           <WorkingGroupPage content={content} homeHref={homeHref} />
           <AdminPanel
@@ -160,8 +304,13 @@ export default function App() {
         <WorkingGroupsHub
           content={workingGroupsHubContent}
           homeHref={homeHref}
-          liveGroupHref={wg13Href}
+          groupHrefs={groupHrefs}
           seriesHref={seriesHref}
+          protectedGroupNumbers={protectedGroupNumbers}
+          lockPrompt={lockPrompt}
+          onProtectedGroupRequest={handleProtectedGroupRequest}
+          onLockClose={handleLockClose}
+          onLockSubmit={handleLockSubmit}
         />
       )}
     </>

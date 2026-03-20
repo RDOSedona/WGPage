@@ -8,8 +8,8 @@
     "title": "AI and the Law",
     "subtitle": "The Sedona Conference working group page",
     "topbarAction": {
-      "label": "Become a member",
-      "href": "https://www.thesedonaconference.org/node/8"
+      "label": "Join or Leave WG13",
+      "href": "https://www.thesedonaconference.org/group/424"
     }
   },
   "navigation": [
@@ -74,9 +74,9 @@
           "description": "Definitions, AI governance, the regulatory crosswalk, and the custom Sedona AI initiative are all active right now."
         },
         {
-          "label": "Best way in",
-          "value": "Join WG13",
-          "description": "Members receive meeting notices, drafting-team applications, announcements, and alerts when drafts are posted for comment."
+          "label": "Publication status",
+          "value": "No public-comment draft",
+          "description": "The current WG13 page does not show a publication open for public comment yet, so meetings and drafting tracks are the clearest signals of what is active."
         }
       ]
     }

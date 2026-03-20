@@ -1,0 +1,375 @@
+{
+  "seo": {
+    "title": "Electronic Document Retention and Production - Working Group 1 | The Sedona Conference",
+    "description": "The mission of Working Group 1 is to develop principles, guidance and best practice recommendations for information governance and electronic discovery in the context of litigation, dispute resolution and investigations. The group released the first public comment draft of The Sedona Principles in March 2003, and the impact was immediate and substantial."
+  },
+  "branding": {
+    "mark": "WG1",
+    "title": "Electronic Document Retention and Production",
+    "subtitle": "The Sedona Conference working group page",
+    "topbarAction": {
+      "label": "Join or Leave WG1",
+      "href": "https://www.thesedonaconference.org/group/18"
+    }
+  },
+  "navigation": [
+    {
+      "href": "#activities",
+      "label": "Activities"
+    },
+    {
+      "href": "#meetings",
+      "label": "Meetings"
+    },
+    {
+      "href": "#resources",
+      "label": "Resources"
+    },
+    {
+      "href": "#committee",
+      "label": "Committee"
+    }
+  ],
+  "hero": {
+    "eyebrow": "Working Group 1",
+    "title": "Electronic Document Retention and Production",
+    "description": "The mission of Working Group 1 is to develop principles, guidance and best practice recommendations for information governance and electronic discovery in the context of litigation, dispute resolution and investigations. The group released the first public comment draft of The Sedona Principles in March 2003, and the impact was immediate and substantial.",
+    "actions": [
+      {
+        "label": "View the live page",
+        "href": "https://www.thesedonaconference.org/wgs/wg1",
+        "icon": "externalLink"
+      },
+      {
+        "label": "Explore the content",
+        "href": "#activities",
+        "icon": "arrowRight"
+      }
+    ],
+    "highlights": [
+      {
+        "value": "Apr 2",
+        "label": "next meeting in 2026"
+      },
+      {
+        "value": "5",
+        "label": "recent publications listed"
+      },
+      {
+        "value": "20",
+        "label": "committee leaders"
+      }
+    ],
+    "snapshot": {
+      "title": "Current snapshot",
+      "items": [
+        {
+          "label": "Next meeting",
+          "value": "Apr 2, 2026",
+          "description": "WG1 will bring together experienced professionals to discuss recent case law on whether generative AI data may be protected by attorney-client privilege and work product doctrine."
+        },
+        {
+          "label": "Foundational work",
+          "value": "Sedona Principles",
+          "description": "The source page still centers WG1 around The Sedona Principles and notes the immediate impact of the March 2003 public comment draft."
+        },
+        {
+          "label": "Process guidance",
+          "value": "Contributor protocols",
+          "description": "WG1 currently surfaces publication style guidance plus brainstorming-team, drafting-team, liaison, and comment protocols for contributors."
+        }
+      ]
+    }
+  },
+  "sections": {
+    "activities": {
+      "id": "activities",
+      "eyebrow": "Mission + Recent Work",
+      "title": "Current Activities",
+      "description": "The current WG1 page foregrounds mission, recent publication topics, and contributor guidance more than a named list of drafting tracks.",
+      "items": [
+        {
+          "title": "Information governance and electronic discovery",
+          "description": "WG1's mission is to develop principles, guidance, and best practice recommendations for information governance and electronic discovery in litigation, dispute resolution, and investigations.",
+          "icon": "scale"
+        },
+        {
+          "title": "Mobile device and collaboration platform discovery",
+          "description": "The 2025 publication list highlights commentary on mobile device data and collaboration platforms, reflecting WG1's ongoing work on modern communication evidence.",
+          "icon": "messageSquare"
+        },
+        {
+          "title": "Internet of Things and database issues",
+          "description": "Recent WG1 publications also address the electronic discovery implications of the Internet of Things and the handling of databases in civil discovery.",
+          "icon": "sparkles"
+        },
+        {
+          "title": "Publication drafting and comment protocols",
+          "description": "WG1 currently surfaces publication style guidance plus brainstorming-team, drafting-team, liaison, and member-comment protocols for contributors.",
+          "icon": "fileText"
+        }
+      ]
+    },
+    "meetings": {
+      "id": "meetings",
+      "eyebrow": "Meetings",
+      "title": "Meetings",
+      "description": "The live WG1 page separates the next scheduled event from a deeper archive of annual, midyear, and virtual town hall sessions.",
+      "tracks": [
+        {
+          "title": "Upcoming Meeting",
+          "tone": "upcoming",
+          "summary": "The next published WG1 event.",
+          "meetings": [
+            {
+              "title": "WG1 Virtual Forum on Recent Case Law Addressing the Application of Privilege and Work Product to Generative AI Data",
+              "date": "Thursday, Apr 02, 2026 - 01:00 pm to 02:00 pm EST",
+              "href": "https://www.thesedonaconference.org/WG1_VFGAI"
+            },
+            {
+              "title": "The Sedona Conference Working Group 1 Midyear Meeting 2026",
+              "date": "Thursday, Apr 23, 2026 - 07:30 am to Friday, Apr 24, 2026 - 01:00 pm",
+              "href": "https://www.thesedonaconference.org/WG1_MY26"
+            }
+          ]
+        },
+        {
+          "title": "Past Meetings",
+          "tone": "past",
+          "summary": "Recent annual meetings and town halls preserved from the current WG1 page.",
+          "meetings": [
+            {
+              "title": "The Sedona Conference Working Group 1 Annual Meeting 2025",
+              "date": "Thursday, Oct 23, 2025 - 09:00 am to Friday, Oct 24, 2025 - 01:00 pm",
+              "href": "https://www.thesedonaconference.org/2025_WG1_AM"
+            },
+            {
+              "title": "WG1 Virtual Town Hall: Confidentiality Provisions and Protective Orders in the Age of Generative A.I.",
+              "date": "Thursday, Oct 16, 2025 - 03:00 pm to Thursday, Oct 16, 2025 - 04:00 pm",
+              "href": "https://www.thesedonaconference.org/WG1_TH-ConfidentialityAI"
+            },
+            {
+              "title": "The Sedona Conference Working Group 1 Midyear Meeting 2025",
+              "date": "Thursday, Apr 24, 2025 - 08:30 am to Friday, Apr 25, 2025 - 01:00 pm",
+              "href": "https://www.thesedonaconference.org/wg1_midyear_meeting_2025"
+            },
+            {
+              "title": "WG1 Virtual Town Hall -- Discovery Under the Hood, Part I: Why Do We Get So Attached To Hyperlinked Documents?",
+              "date": "Thursday, Mar 20, 2025 - 03:00 pm to Thursday, Mar 20, 2025 - 04:30 pm",
+              "href": "https://www.thesedonaconference.org/WG1_Virtual_Town_Hall_on_Hyperlinked_Documents"
+            },
+            {
+              "title": "The Sedona Conference Working Group 1 Annual Meeting 2024",
+              "date": "Thursday, Oct 24, 2024 - 08:30 am to Friday, Oct 25, 2024 - 01:00 pm",
+              "href": "https://www.thesedonaconference.org/wg1_annual_meeting_2024"
+            }
+          ],
+          "footerLink": {
+            "label": "View all past meetings",
+            "href": "https://www.thesedonaconference.org/Electronic%20Document%20Retention%20and%20Production%20-%20Working%20Group%201"
+          }
+        }
+      ]
+    },
+    "resources": {
+      "id": "resources",
+      "eyebrow": "Resources",
+      "title": "Resources",
+      "description": "WG1's source page combines membership access, recent publications, a publications-process announcement, and members-only reference notices.",
+      "cards": [
+        {
+          "title": "Join or Leave This Working Group",
+          "status": "Membership access",
+          "description": "Use the WG1 membership page to receive meeting notices, drafting team applications, draft-comment notices, and working group announcements.",
+          "href": "https://www.thesedonaconference.org/group/18",
+          "cta": "Manage membership",
+          "icon": "users"
+        },
+        {
+          "title": "Working Group Publications Process",
+          "status": "Announcement",
+          "description": "This WG1 update links to publication style guidelines, brainstorming- and drafting-team leader guidance, liaison guidance, and member/public comment protocols.",
+          "href": "https://www.thesedonaconference.org/node/9698",
+          "cta": "Review the process",
+          "icon": "fileText"
+        },
+        {
+          "title": "View All Working Group Publications",
+          "status": "Publication hub",
+          "description": "The current page lists recent WG1 titles on mobile device data, the Internet of Things, collaboration platforms, judiciary resources, and databases.",
+          "href": "https://www.thesedonaconference.org/wgs/wg1",
+          "cta": "Browse recent WG1 publications",
+          "icon": "bookOpen"
+        },
+        {
+          "title": "Publication Open for Public Comment",
+          "status": "No active item",
+          "description": "The current WG1 page shows no publication open for public comment at this time.",
+          "href": "https://www.thesedonaconference.org/wgs/wg1",
+          "cta": "Monitor the live page",
+          "icon": "messageSquare"
+        },
+        {
+          "title": "Members-only reference materials",
+          "status": "Restricted use",
+          "description": "Reference materials are for working group members only and are not to be copied or republished.",
+          "href": "https://www.thesedonaconference.org/group/18",
+          "cta": "Review member access",
+          "icon": "shieldCheck"
+        }
+      ],
+      "aside": {
+        "eyebrow": "Membership note",
+        "title": "Sign in to unlock the full WG1 workspace",
+        "description": "Be sure to log in to view all content. Working group content access on the right side of the screen is disabled for non-members.",
+        "actions": [
+          {
+            "label": "Join or Leave WG1",
+            "href": "https://www.thesedonaconference.org/group/18",
+            "icon": "externalLink"
+          },
+          {
+            "label": "Join the series",
+            "href": "https://www.thesedonaconference.org/node/8",
+            "icon": "externalLink"
+          }
+        ]
+      }
+    },
+    "committee": {
+      "id": "committee",
+      "eyebrow": "Leadership",
+      "title": "Steering Committee",
+      "description": "The current WG1 page organizes the roster into chair, vice chair, emeriti, and members.",
+      "groups": [
+        {
+          "role": "Chair",
+          "people": [
+            {
+              "name": "Claudia T. Morgan",
+              "href": "https://thesedonaconference.org/bio/2188"
+            }
+          ]
+        },
+        {
+          "role": "Vice Chair",
+          "people": [
+            {
+              "name": "Meghan A. Podolny",
+              "href": "https://www.thesedonaconference.org/bio/88190"
+            }
+          ]
+        },
+        {
+          "role": "Chairs Emeriti",
+          "people": [
+            {
+              "name": "Thomas Y. Allman",
+              "href": "https://thesedonaconference.org/bio/3455"
+            },
+            {
+              "name": "Kevin F. Brady",
+              "href": "https://thesedonaconference.org/bio/4063"
+            },
+            {
+              "name": "Conor R. Crowley",
+              "href": "https://thesedonaconference.org/bio/1074"
+            },
+            {
+              "name": "Jonathan Redgrave",
+              "href": "https://thesedonaconference.org/bio/4194"
+            },
+            {
+              "name": "Ariana J. Tadler",
+              "href": "https://thesedonaconference.org/bio/2517"
+            },
+            {
+              "name": "Martin T. Tully",
+              "href": "https://thesedonaconference.org/bio/3511"
+            }
+          ]
+        },
+        {
+          "role": "Judicial Emeritus",
+          "people": [
+            {
+              "name": "Hon. Andrew J. Peck (ret.)",
+              "href": "https://thesedonaconference.org/bio/4476"
+            }
+          ]
+        },
+        {
+          "role": "Members",
+          "people": [
+            {
+              "name": "Kelly Atherton",
+              "href": "https://thesedonaconference.org/bio/102379"
+            },
+            {
+              "name": "Travis Bustamante",
+              "href": "https://www.thesedonaconference.org/bio/161561"
+            },
+            {
+              "name": "Lea Bays",
+              "href": "https://thesedonaconference.org/bio/34861"
+            },
+            {
+              "name": "Adam Gajadharsingh",
+              "href": "https://thesedonaconference.org/bio/179974"
+            },
+            {
+              "name": "Laura Hunt",
+              "href": "https://thesedonaconference.org/bio/79120"
+            },
+            {
+              "name": "Shauna Itri",
+              "href": "https://www.thesedonaconference.org/bio/229833"
+            },
+            {
+              "name": "Dennis Kiker",
+              "href": "https://thesedonaconference.org/bio/3077"
+            },
+            {
+              "name": "Daniel W. Lim",
+              "href": "https://thesedonaconference.org/bio/73269"
+            },
+            {
+              "name": "Michelle Newcomer",
+              "href": "https://thesedonaconference.org/bio/131963"
+            },
+            {
+              "name": "Chad Roberts",
+              "href": "https://www.thesedonaconference.org/bio/69531"
+            },
+            {
+              "name": "Cristin Traylor",
+              "href": "https://thesedonaconference.org/bio/81506"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "footer": {
+    "eyebrow": "About The Sedona Conference",
+    "description": "The Sedona Conference is a nonpartisan, nonprofit research and educational institute dedicated to advancing law and policy through consensus-driven publications and legal education.",
+    "contacts": [
+      {
+        "label": "602-258-4910",
+        "href": "tel:6022584910"
+      },
+      {
+        "label": "info@sedonaconference.org",
+        "href": "mailto:info@sedonaconference.org"
+      },
+      {
+        "label": "cle@sedonaconference.org",
+        "href": "mailto:cle@sedonaconference.org"
+      },
+      {
+        "label": "comments@sedonaconference.org",
+        "href": "mailto:comments@sedonaconference.org"
+      }
+    ]
+  }
+}
