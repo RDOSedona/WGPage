@@ -76,6 +76,23 @@ function SelectField({ label, value, onChange, options }) {
   );
 }
 
+function ToggleField({ label, checked, onChange }) {
+  return (
+    <label className="admin-toggle">
+      <div className="admin-toggle-copy">
+        <span>{label}</span>
+        <small>{checked ? 'Visible on the page' : 'Hidden from the page'}</small>
+      </div>
+      <input
+        className="admin-toggle-input"
+        type="checkbox"
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+    </label>
+  );
+}
+
 function ItemHeader({ title, onRemove }) {
   return (
     <div className="admin-item-header">
@@ -97,10 +114,12 @@ function SectionHeader({ icon: Icon, title, description, onAdd, addLabel }) {
         </div>
         <p>{description}</p>
       </div>
-      <button className="admin-add-button" type="button" onClick={onAdd}>
-        <Plus size={15} aria-hidden="true" />
-        {addLabel}
-      </button>
+      {onAdd && addLabel ? (
+        <button className="admin-add-button" type="button" onClick={onAdd}>
+          <Plus size={15} aria-hidden="true" />
+          {addLabel}
+        </button>
+      ) : null}
     </div>
   );
 }
@@ -114,8 +133,11 @@ export default function AdminPanel({
   onExportContent,
   onImportContent,
   onResetContent,
+  statusMessage = '',
 }) {
-  const [feedback, setFeedback] = useState('Edits auto-save in this browser. Export JSON to keep or share changes.');
+  const [feedback, setFeedback] = useState('Export JSON to keep or share a snapshot of the current page.');
+  const pageLabel = content?.branding?.mark ?? content?.branding?.title ?? 'page';
+  const heroActions = content.hero.actions ?? [];
 
   const handleImportFile = async (event) => {
     const file = event.target.files?.[0];
@@ -137,12 +159,12 @@ export default function AdminPanel({
   };
 
   const handleReset = async () => {
-    if (!window.confirm('Reset all page edits back to the default WG13 content?')) {
+    if (!window.confirm(`Reset all page edits back to the default ${pageLabel} content?`)) {
       return;
     }
 
     await onResetContent();
-    setFeedback('Reset to the default WG13 content.');
+    setFeedback(`Reset to the default ${pageLabel} content.`);
   };
 
   return (
@@ -171,6 +193,7 @@ export default function AdminPanel({
           </button>
         </div>
 
+        {statusMessage ? <p className="admin-feedback admin-feedback-secondary">{statusMessage}</p> : null}
         <p className="admin-feedback">{feedback}</p>
 
         <div className="admin-toolbar">
@@ -190,6 +213,53 @@ export default function AdminPanel({
         </div>
 
         <div className="admin-panel-scroll">
+          <section className="admin-section">
+            <SectionHeader
+              icon={Settings2}
+              title="Hero Buttons"
+              description="Show or hide the hero buttons and control the text and destination for each one."
+            />
+
+            <div className="admin-stack">
+              {heroActions.map((action, index) => (
+                <article className="admin-item-card" key={`hero-action-${index}`}>
+                  <div className="admin-item-header">
+                    <h4>{`Hero Button ${index + 1}`}</h4>
+                  </div>
+                  <ToggleField
+                    label="Show this button"
+                    checked={action.enabled !== false}
+                    onChange={(value) =>
+                      onContentChange((draft) => {
+                        draft.hero.actions[index].enabled = value;
+                      })
+                    }
+                  />
+                  <div className="admin-grid admin-grid-two">
+                    <TextField
+                      label="Button text"
+                      value={action.label}
+                      onChange={(value) =>
+                        onContentChange((draft) => {
+                          draft.hero.actions[index].label = value;
+                        })
+                      }
+                    />
+                    <TextField
+                      label="Button link"
+                      value={action.href}
+                      onChange={(value) =>
+                        onContentChange((draft) => {
+                          draft.hero.actions[index].href = value;
+                        })
+                      }
+                    />
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
           <section className="admin-section">
             <SectionHeader
               icon={FolderCog}

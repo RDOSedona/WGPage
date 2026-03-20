@@ -38,12 +38,14 @@
       {
         "label": "View the live page",
         "href": "https://www.thesedonaconference.org/wgs/wg1",
-        "icon": "externalLink"
+        "icon": "externalLink",
+        "enabled": true
       },
       {
         "label": "Explore the content",
         "href": "#activities",
-        "icon": "arrowRight"
+        "icon": "arrowRight",
+        "enabled": true
       }
     ],
     "highlights": [

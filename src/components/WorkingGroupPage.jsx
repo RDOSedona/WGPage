@@ -92,6 +92,9 @@ function SectionHeading({ section }) {
 
 export default function WorkingGroupPage({ content, homeHref = null }) {
   const { branding, navigation, hero, sections, footer, seo } = content;
+  const heroActions = (hero.actions ?? []).filter(
+    (action) => action?.enabled !== false && action?.label?.trim() && action?.href?.trim(),
+  );
   const committeeGroups = sections.committee.groups ?? [];
   const featuredCommitteeIndex = committeeGroups.reduce((largestIndex, group, index, groups) => {
     if (largestIndex === -1) {
@@ -167,22 +170,24 @@ export default function WorkingGroupPage({ content, homeHref = null }) {
             <span className="hero-beam hero-beam-two" />
           </div>
 
-          <div className="hero-copy">
+          <div className={`hero-copy ${heroActions.length ? '' : 'hero-copy-no-actions'}`.trim()}>
             <div className="hero-lead-in">
               <span className="eyebrow">{hero.eyebrow}</span>
               <span className="hero-lead-line" />
             </div>
             <h1 className={getHeroTitleClass(hero.title)}>{hero.title}</h1>
             <p className="hero-text">{hero.description}</p>
-            <div className="hero-actions">
-              {hero.actions.map((action, index) => (
-                <ActionLink
-                  key={action.label}
-                  action={action}
-                  className={index === 0 ? 'button button-primary' : 'button button-secondary'}
-                />
-              ))}
-            </div>
+            {heroActions.length ? (
+              <div className="hero-actions">
+                {heroActions.map((action, index) => (
+                  <ActionLink
+                    key={action.label}
+                    action={action}
+                    className={index === 0 ? 'button button-primary' : 'button button-secondary'}
+                  />
+                ))}
+              </div>
+            ) : null}
             <div className="hero-marquee" aria-hidden="true">
               <div className="hero-marquee-track">
                 {marqueeItems.concat(marqueeItems).map((item, index) => (

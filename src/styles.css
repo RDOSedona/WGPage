@@ -1112,6 +1112,10 @@ main {
   flex-direction: column;
 }
 
+.hero-copy-no-actions {
+  justify-content: center;
+}
+
 .hero-lead-in {
   display: flex;
   align-items: center;
@@ -1857,6 +1861,12 @@ main {
   font-size: 0.94rem;
 }
 
+.admin-feedback-secondary {
+  border-color: rgba(253, 87, 2, 0.16);
+  background: rgba(255, 247, 241, 0.9);
+  color: var(--brand-purple-deep);
+}
+
 .admin-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1987,6 +1997,45 @@ main {
   flex-direction: column;
   gap: 0.45rem;
   margin-top: 0.8rem;
+}
+
+.admin-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.8rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(86, 59, 151, 0.12);
+  border-radius: 16px;
+  background: rgba(249, 245, 255, 0.72);
+}
+
+.admin-toggle-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.admin-toggle-copy span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-toggle-copy small {
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.admin-toggle-input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--brand-purple);
+  cursor: pointer;
 }
 
 .admin-field span,

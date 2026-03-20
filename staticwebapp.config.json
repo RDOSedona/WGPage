@@ -42,6 +42,15 @@
     {
       "route": "/api/staff-access/*",
       "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/working-group-pages/*",
+      "methods": ["GET"],
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "/api/working-group-pages/*",
+      "allowedRoles": ["authenticated"]
     }
   ],
   "responseOverrides": {

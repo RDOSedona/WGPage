@@ -7,6 +7,11 @@ import wg1DefaultContent from './content/wg1.json';
 import wg13DefaultContent from './content/wg13.json';
 import workingGroupsHubContent from './content/workingGroupsHub.json';
 import workingGroupSeriesInfo from './content/workingGroupSeriesInfo.json';
+import {
+  fetchWorkingGroupContentFromApi,
+  getWorkingGroupAdminAccess,
+  saveWorkingGroupContentToApi,
+} from './lib/workingGroupContentApi.js';
 
 const HOME_VIEW = 'home';
 const WG1_VIEW = 'wg1';
@@ -14,6 +19,10 @@ const WG13_VIEW = 'wg13';
 const SERIES_VIEW = 'series';
 const DEFAULT_WORKING_GROUP_VIEW = WG13_VIEW;
 const UNLOCK_STORAGE_KEY = 'working-group-access-v1';
+const STORAGE_MODE_CHECKING = 'checking';
+const STORAGE_MODE_LOCAL = 'local';
+const STORAGE_MODE_REMOTE = 'remote';
+const STORAGE_MODE_READ_ONLY = 'read-only';
 const protectedWorkingGroups = {
   [WG13_VIEW]: {
     number: '13',
@@ -69,7 +78,7 @@ function loadInitialContent(view) {
   }
 
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(storageKey);
 
     if (!raw) {
       return cloneContent(defaultContent);
@@ -79,6 +88,20 @@ function loadInitialContent(view) {
     return isValidWorkingGroupContent(parsed) ? parsed : cloneContent(defaultContent);
   } catch {
     return cloneContent(defaultContent);
+  }
+}
+
+function saveLocalContent(view, content) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const { storageKey } = getWorkingGroupPageConfig(view);
+
+  try {
+    window.localStorage.setItem(storageKey, JSON.stringify(content));
+  } catch {
+    // Ignore storage failures and keep the page usable.
   }
 }
 
@@ -138,6 +161,9 @@ export default function App() {
   const [adminOpen, setAdminOpen] = useState(false);
   const [unlockedViews, setUnlockedViews] = useState(loadUnlockedViews);
   const [requestedProtectedView, setRequestedProtectedView] = useState(null);
+  const [storageMode, setStorageMode] = useState(STORAGE_MODE_CHECKING);
+  const [storageNotice, setStorageNotice] = useState('Checking shared Azure storage…');
+  const [pendingRemoteSave, setPendingRemoteSave] = useState(false);
   const homeHref = getBaseHref();
   const seriesHref = `${homeHref}?view=${SERIES_VIEW}`;
   const groupHrefs = Object.fromEntries(
@@ -169,9 +195,61 @@ export default function App() {
       return;
     }
 
+    let isCancelled = false;
+
+    setPendingRemoteSave(false);
+    setStorageMode(STORAGE_MODE_CHECKING);
+    setStorageNotice('Loading working group content…');
+
     startTransition(() => {
       setContent(loadInitialContent(activeWorkingGroupView));
     });
+
+    Promise.all([
+      fetchWorkingGroupContentFromApi(activeWorkingGroupView),
+      getWorkingGroupAdminAccess(),
+    ]).then(([remoteResult, adminAccess]) => {
+      if (isCancelled) {
+        return;
+      }
+
+      if (remoteResult.available && isValidWorkingGroupContent(remoteResult.content)) {
+        startTransition(() => {
+          setContent(cloneContent(remoteResult.content));
+        });
+      }
+
+      if (remoteResult.available && adminAccess.authorized) {
+        setStorageMode(STORAGE_MODE_REMOTE);
+        setStorageNotice('Azure shared storage connected. Changes auto-save for approved staff.');
+        return;
+      }
+
+      if (remoteResult.available) {
+        setStorageMode(STORAGE_MODE_READ_ONLY);
+        setStorageNotice('This page is loading from Azure shared storage. Sign in with an approved staff account to edit.');
+        return;
+      }
+
+      if (adminAccess.authorized) {
+        setStorageMode(STORAGE_MODE_LOCAL);
+        setStorageNotice('Azure storage is unavailable right now. Changes will stay in this browser until the API is reachable.');
+        return;
+      }
+
+      if (!adminAccess.available) {
+        setStorageMode(STORAGE_MODE_LOCAL);
+        setStorageNotice('Using browser-only draft mode. Deploy the Azure Static Web Apps API to share edits across users.');
+        return;
+      }
+
+      setStorageMode(STORAGE_MODE_READ_ONLY);
+      setStorageNotice('Editing is restricted to approved staff accounts.');
+    });
+
+    return () => {
+      isCancelled = true;
+    };
   }, [activeWorkingGroupView, isWorkingGroupPage]);
 
   useEffect(() => {
@@ -179,12 +257,50 @@ export default function App() {
       return;
     }
 
-    try {
-      window.localStorage.setItem(activeWorkingGroup.storageKey, JSON.stringify(content));
-    } catch {
-      // Ignore storage failures and keep the page usable.
+    saveLocalContent(activeWorkingGroupView, content);
+  }, [activeWorkingGroupView, content, isWorkingGroupPage]);
+
+  useEffect(() => {
+    if (!isWorkingGroupPage || storageMode !== STORAGE_MODE_REMOTE || !pendingRemoteSave) {
+      return;
     }
-  }, [activeWorkingGroup.storageKey, content, isWorkingGroupPage]);
+
+    let isCancelled = false;
+    const timeoutId = window.setTimeout(async () => {
+      try {
+        setStorageNotice('Saving changes to Azure shared storage…');
+        await saveWorkingGroupContentToApi(activeWorkingGroupView, content);
+
+        if (isCancelled) {
+          return;
+        }
+
+        setPendingRemoteSave(false);
+        setStorageNotice('Azure shared storage connected. Changes auto-save for approved staff.');
+      } catch (error) {
+        if (isCancelled) {
+          return;
+        }
+
+        const message = error instanceof Error ? error.message : 'Unable to save working group page.';
+        setPendingRemoteSave(false);
+
+        if (/staff sign-in|required|not approved/i.test(message)) {
+          setStorageMode(STORAGE_MODE_READ_ONLY);
+          setStorageNotice('Your staff session can no longer save edits. Sign in again with an approved account.');
+          return;
+        }
+
+        setStorageMode(STORAGE_MODE_LOCAL);
+        setStorageNotice('Could not reach Azure shared storage. Changes are staying in this browser for now.');
+      }
+    }, 650);
+
+    return () => {
+      isCancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [activeWorkingGroupView, content, isWorkingGroupPage, pendingRemoteSave, storageMode]);
 
   useEffect(() => {
     if (isBlockedProtectedView) {
@@ -198,18 +314,14 @@ export default function App() {
       updater(draft);
       return draft;
     });
+    setPendingRemoteSave(true);
   };
 
   const handleResetContent = async () => {
     startTransition(() => {
       setContent(cloneContent(activeWorkingGroup.defaultContent));
     });
-
-    try {
-      window.localStorage.removeItem(activeWorkingGroup.storageKey);
-    } catch {
-      // Ignore storage failures and keep the page usable.
-    }
+    setPendingRemoteSave(true);
   };
 
   const handleImportContent = async (nextContent) => {
@@ -220,6 +332,7 @@ export default function App() {
     startTransition(() => {
       setContent(cloneContent(nextContent));
     });
+    setPendingRemoteSave(true);
   };
 
   const handleExportContent = () => {
@@ -282,21 +395,28 @@ export default function App() {
     return true;
   };
 
+  const canEditPages =
+    isWorkingGroupPage &&
+    (storageMode === STORAGE_MODE_LOCAL || storageMode === STORAGE_MODE_REMOTE);
+
   return (
     <>
       {isWorkingGroupPage && !isBlockedProtectedView ? (
         <>
           <WorkingGroupPage content={content} homeHref={homeHref} />
-          <AdminPanel
-            content={content}
-            isOpen={adminOpen}
-            onOpen={() => setAdminOpen(true)}
-            onClose={() => setAdminOpen(false)}
-            onContentChange={handleContentChange}
-            onExportContent={handleExportContent}
-            onImportContent={handleImportContent}
-            onResetContent={handleResetContent}
-          />
+          {canEditPages ? (
+            <AdminPanel
+              content={content}
+              isOpen={adminOpen}
+              onOpen={() => setAdminOpen(true)}
+              onClose={() => setAdminOpen(false)}
+              onContentChange={handleContentChange}
+              onExportContent={handleExportContent}
+              onImportContent={handleImportContent}
+              onResetContent={handleResetContent}
+              statusMessage={storageNotice}
+            />
+          ) : null}
         </>
       ) : currentView === SERIES_VIEW ? (
         <WorkingGroupSeriesPage content={workingGroupSeriesInfo} homeHref={homeHref} />

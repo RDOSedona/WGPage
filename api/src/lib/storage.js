@@ -3,9 +3,11 @@ import { TableClient } from "@azure/data-tables";
 const CUSTOM_REQUEST_TYPES_TABLE = "PortalRequestTypes";
 const REQUESTS_TABLE = "PortalRequests";
 const STAFF_ACCESS_TABLE = "PortalStaffAccess";
+const WORKING_GROUP_PAGES_TABLE = "PortalWorkingGroupPages";
 const CUSTOM_REQUEST_TYPE_PARTITION = "request-type";
 const REQUEST_PARTITION = "request";
 const STAFF_ACCESS_PARTITION = "staff-access";
+const WORKING_GROUP_PAGE_PARTITION = "working-group-page";
 const DEFAULT_ALLOWED_STAFF = ["rdo@sedonaconference.org", "rmb@sedonaconference.org"];
 
 function getConnectionString() {
@@ -68,13 +70,14 @@ async function listPayloads(tableName) {
   return results;
 }
 
-async function upsertPayload(tableName, partitionKey, rowKey, payload) {
+async function upsertPayload(tableName, partitionKey, rowKey, payload, extraFields = {}) {
   const client = await getTableClient(tableName);
   const entity = {
     partitionKey,
     rowKey,
     payload: JSON.stringify(payload),
     updatedAt: new Date().toISOString(),
+    ...extraFields,
   };
 
   await client.upsertEntity(entity, "Replace");
@@ -118,6 +121,32 @@ export async function saveCustomRequestType(requestType) {
 
 export async function removeCustomRequestType(requestTypeId) {
   await deletePayload(CUSTOM_REQUEST_TYPES_TABLE, CUSTOM_REQUEST_TYPE_PARTITION, requestTypeId);
+}
+
+function normalizeWorkingGroupPageView(view) {
+  const normalized = String(view ?? "").trim().toLowerCase();
+  if (!/^[a-z0-9-]{1,64}$/.test(normalized)) {
+    throw new Error("Working group page view is invalid.");
+  }
+  return normalized;
+}
+
+export async function getWorkingGroupPage(view) {
+  const normalizedView = normalizeWorkingGroupPageView(view);
+  return getPayload(WORKING_GROUP_PAGES_TABLE, WORKING_GROUP_PAGE_PARTITION, normalizedView);
+}
+
+export async function saveWorkingGroupPage(view, pageContent, updatedBy = "") {
+  const normalizedView = normalizeWorkingGroupPageView(view);
+  const normalizedUpdatedBy = normalizeEmail(updatedBy);
+
+  return upsertPayload(
+    WORKING_GROUP_PAGES_TABLE,
+    WORKING_GROUP_PAGE_PARTITION,
+    normalizedView,
+    pageContent,
+    normalizedUpdatedBy ? { updatedBy: normalizedUpdatedBy } : {},
+  );
 }
 
 export async function listRequests() {
