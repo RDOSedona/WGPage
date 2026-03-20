@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, LockKeyhole } from 'lucide-react';
+import { ArrowLeft, ArrowRight, LockKeyhole } from 'lucide-react';
 import sedonaLogo from '../assets/tsc-logo.svg';
 
 const reveal = (delay = 0) => ({
@@ -129,9 +129,15 @@ export default function WorkingGroupsHub({
           <a className="brand hub-brand" href={homeHref} aria-label="The Sedona Conference">
             <img className="hub-logo" src={sedonaLogo} alt="The Sedona Conference" />
           </a>
-          <a className="hub-series-link" href={seriesHref}>
-            Learn about the working group series
-          </a>
+          <div className="hub-topbar-actions">
+            <a className="hub-series-link" href={seriesHref}>
+              Learn about the working group series
+            </a>
+            <a className="series-back-link" href="https://thesedonaconference.org">
+              <ArrowLeft size={15} aria-hidden="true" />
+              Back to home
+            </a>
+          </div>
         </div>
       </header>
 
