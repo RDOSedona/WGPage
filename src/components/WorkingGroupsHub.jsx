@@ -14,6 +14,59 @@ const reveal = (delay = 0) => ({
   },
 });
 
+function HubWaveBackdrop() {
+  return (
+    <div className="hub-wave-backdrop" aria-hidden="true">
+      <svg className="hub-wave-scene" viewBox="-120 0 1680 420" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="hubWavePurple" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#7b62be" />
+            <stop offset="48%" stopColor="#563b97" />
+            <stop offset="100%" stopColor="#342058" />
+          </linearGradient>
+          <linearGradient id="hubWaveOrange" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#ff9f4a" />
+            <stop offset="46%" stopColor="#fd5702" />
+            <stop offset="100%" stopColor="#c94800" />
+          </linearGradient>
+          <linearGradient id="hubWavePlum" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#b184e4" />
+            <stop offset="100%" stopColor="#734eb0" />
+          </linearGradient>
+        </defs>
+
+        <path
+          className="hub-wave-layer hub-wave-layer-back"
+          d="M-220 284C-96 300 -8 236 122 242C272 248 318 324 492 316C640 308 690 238 874 246C1020 252 1088 320 1244 316C1360 314 1434 274 1660 262V420H-220Z"
+          fill="url(#hubWavePlum)"
+          opacity="0.6"
+        />
+
+        <path
+          className="hub-wave-layer hub-wave-layer-mid"
+          d="M-220 312C-86 338 22 264 170 274C324 284 376 352 544 348C714 344 768 270 920 280C1088 292 1182 364 1334 360C1410 358 1460 334 1660 322V420H-220Z"
+          fill="url(#hubWavePurple)"
+          opacity="0.9"
+        />
+
+        <path
+          className="hub-wave-layer hub-wave-layer-accent"
+          d="M-220 318C-66 352 18 300 170 302C338 304 444 392 604 396C758 400 812 332 978 332C1138 332 1248 404 1400 404C1462 404 1514 388 1660 374V420H-220Z"
+          fill="url(#hubWaveOrange)"
+          opacity="0.98"
+        />
+
+        <path
+          className="hub-wave-layer hub-wave-layer-front"
+          d="M-220 378C-92 398 18 364 176 366C340 370 442 410 598 410C736 410 828 382 972 382C1122 382 1236 416 1368 416C1444 416 1498 410 1660 404V420H-220Z"
+          fill="url(#hubWaveOrange)"
+          opacity="1"
+        />
+      </svg>
+    </div>
+  );
+}
+
 export default function WorkingGroupsHub({
   content,
   homeHref,
@@ -64,7 +117,7 @@ export default function WorkingGroupsHub({
   };
 
   return (
-    <div className="page-shell">
+    <div className="page-shell page-shell-hub">
       <div className="page-ambience" aria-hidden="true">
         <span className="ambient-blob ambient-blob-one" />
         <span className="ambient-blob ambient-blob-two" />
@@ -158,6 +211,8 @@ export default function WorkingGroupsHub({
           </div>
         </motion.section>
       </main>
+
+      <HubWaveBackdrop />
 
       {lockPrompt ? (
         <div className="hub-lock-overlay" role="presentation">

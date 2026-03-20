@@ -97,6 +97,26 @@
   }
 }
 
+@keyframes hubWaveDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.03, 1);
+  }
+  50% {
+    transform: translate3d(-0.9%, 0, 0) scale(1.05, 1);
+  }
+}
+
+@keyframes hubWaveDriftAlt {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.03, 1);
+  }
+  50% {
+    transform: translate3d(1.1%, 0, 0) scale(1.06, 1);
+  }
+}
+
 @keyframes marqueeSlide {
   0% {
     transform: translate3d(0, 0, 0);
@@ -209,6 +229,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 * {
@@ -218,6 +239,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top left, rgba(253, 87, 2, 0.2), transparent 24%),
     radial-gradient(circle at 82% 12%, rgba(86, 59, 151, 0.22), transparent 20%),
@@ -248,6 +270,13 @@ select {
   width: min(1180px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 1rem 0 4rem;
+}
+
+.page-shell-hub {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 0;
 }
 
 .page-ambience {
@@ -462,9 +491,13 @@ select {
 }
 
 .hub-main {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
+  flex: 1 0 auto;
   gap: 0.9rem;
+  padding-bottom: clamp(8rem, 18vw, 11.2rem);
 }
 
 .hub-grid-section {
@@ -472,6 +505,41 @@ select {
   flex-direction: column;
   gap: 1rem;
   position: relative;
+  isolation: isolate;
+  padding-bottom: 0;
+}
+
+.hub-wave-backdrop {
+  position: absolute;
+  left: calc((100vw - 100%) / -2 - 2px);
+  right: calc((100vw - 100%) / -2 - 2px);
+  bottom: 0;
+  height: min(18vw, 12rem);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.98;
+}
+
+.hub-wave-scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: saturate(108%);
+}
+
+.hub-wave-layer {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.hub-wave-layer-back,
+.hub-wave-layer-accent {
+  animation: hubWaveDrift 18s ease-in-out infinite;
+}
+
+.hub-wave-layer-mid,
+.hub-wave-layer-front {
+  animation: hubWaveDriftAlt 22s ease-in-out infinite;
 }
 
 .hub-grid {
@@ -485,6 +553,7 @@ select {
 
 .hub-heading {
   position: relative;
+  z-index: 1;
   padding: 1.65rem 1.7rem 1.5rem;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 32px;
@@ -2098,6 +2167,7 @@ main {
   .brand-mark,
   .hub-heading::before,
   .hub-heading-orbit,
+  .hub-wave-layer,
   .hero-orbit,
   .hero-beam,
   .hero-marquee-track,
@@ -2137,6 +2207,10 @@ main {
 
   .hub-heading {
     padding: 1.3rem 1.25rem 1.2rem;
+  }
+
+  .hub-wave-backdrop {
+    height: min(23vw, 10.5rem);
   }
 
   .hub-heading::before {
@@ -2180,6 +2254,10 @@ main {
     padding: 1rem;
   }
 
+  .hub-main {
+    padding-bottom: min(23vw, 9.8rem);
+  }
+
   .hub-series-link,
   .series-back-link {
     width: 100%;
@@ -2218,6 +2296,15 @@ main {
 
   .hub-heading {
     padding: 1.15rem;
+  }
+
+  .hub-grid-section {
+    padding-bottom: 0;
+  }
+
+  .hub-wave-backdrop {
+    height: min(28vw, 9rem);
+    opacity: 0.9;
   }
 
   .hub-heading h2 {
@@ -2280,9 +2367,18 @@ main {
 }
 
 @media (max-width: 560px) {
+  .hub-main {
+    padding-bottom: 7.5rem;
+  }
+
   .hub-heading-orbit-two,
   .hub-heading-beam-two {
     display: none;
+  }
+
+  .hub-wave-backdrop {
+    height: 5.5rem;
+    opacity: 0.8;
   }
 
   .hub-heading h2 {
