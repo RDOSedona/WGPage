@@ -19,6 +19,7 @@ const SERIES_VIEW = 'series';
 const DEFAULT_WORKING_GROUP_VIEW = WG13_VIEW;
 const ADMIN_PANEL_VERSION = import.meta.env.VITE_ADMIN_PANEL_VERSION || '0.2.8';
 const UNLOCK_STORAGE_KEY = 'working-group-access-v1';
+const HOME_UI_STORAGE_KEY = 'working-groups-home-ui-v1';
 const STORAGE_MODE_CHECKING = 'checking';
 const STORAGE_MODE_LOCAL = 'local';
 const STORAGE_MODE_REMOTE = 'remote';
@@ -123,6 +124,44 @@ function loadUnlockedViews() {
   }
 }
 
+function loadHomeUiSettings() {
+  if (typeof window === 'undefined') {
+    return {
+      showWaveFooter: true,
+    };
+  }
+
+  try {
+    const raw = window.localStorage.getItem(HOME_UI_STORAGE_KEY);
+    if (!raw) {
+      return {
+        showWaveFooter: true,
+      };
+    }
+
+    const parsed = JSON.parse(raw);
+    return {
+      showWaveFooter: parsed?.showWaveFooter !== false,
+    };
+  } catch {
+    return {
+      showWaveFooter: true,
+    };
+  }
+}
+
+function saveHomeUiSettings(settings) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(HOME_UI_STORAGE_KEY, JSON.stringify(settings));
+  } catch {
+    // Ignore storage failures and keep the page usable.
+  }
+}
+
 function getBaseHref() {
   if (typeof window === 'undefined') {
     return '/';
@@ -163,6 +202,7 @@ export default function App() {
   const [storageMode, setStorageMode] = useState(STORAGE_MODE_CHECKING);
   const [storageNotice, setStorageNotice] = useState('Checking shared Azure storage...');
   const [pendingRemoteSave, setPendingRemoteSave] = useState(false);
+  const [homeUiSettings, setHomeUiSettings] = useState(loadHomeUiSettings);
   const homeHref = getBaseHref();
   const seriesHref = `${homeHref}?view=${SERIES_VIEW}`;
   const groupHrefs = Object.fromEntries(
@@ -289,6 +329,10 @@ export default function App() {
     }
   }, [currentView, isBlockedProtectedView]);
 
+  useEffect(() => {
+    saveHomeUiSettings(homeUiSettings);
+  }, [homeUiSettings]);
+
   const handleContentChange = (updater) => {
     setContent((previous) => {
       const draft = cloneContent(previous);
@@ -395,6 +439,13 @@ export default function App() {
               onRevertContent={handleRevertContent}
               statusMessage={storageNotice}
               version={ADMIN_PANEL_VERSION}
+              showHomeWaveFooter={homeUiSettings.showWaveFooter}
+              onToggleHomeWaveFooter={(value) =>
+                setHomeUiSettings((previous) => ({
+                  ...previous,
+                  showWaveFooter: value,
+                }))
+              }
             />
           ) : null}
         </>
@@ -406,6 +457,7 @@ export default function App() {
           homeHref={homeHref}
           groupHrefs={groupHrefs}
           seriesHref={seriesHref}
+          showWaveFooter={homeUiSettings.showWaveFooter}
           protectedGroupNumbers={protectedGroupNumbers}
           lockPrompt={lockPrompt}
           onProtectedGroupRequest={handleProtectedGroupRequest}

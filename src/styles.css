@@ -279,6 +279,10 @@ select {
   padding-bottom: 0;
 }
 
+.page-shell-hub-no-wave {
+  min-height: auto;
+}
+
 .page-ambience {
   position: fixed;
   inset: 0;
@@ -505,6 +509,10 @@ select {
   flex: 1 0 auto;
   gap: 0.9rem;
   padding-bottom: clamp(8rem, 18vw, 11.2rem);
+}
+
+.hub-main-no-wave {
+  padding-bottom: 0;
 }
 
 .hub-grid-section {
@@ -2265,6 +2273,10 @@ main {
     padding-bottom: min(23vw, 9.8rem);
   }
 
+  .hub-main-no-wave {
+    padding-bottom: 0;
+  }
+
   .hub-series-link,
   .series-back-link {
     width: 100%;
@@ -2380,6 +2392,10 @@ main {
 @media (max-width: 560px) {
   .hub-main {
     padding-bottom: 7.5rem;
+  }
+
+  .hub-main-no-wave {
+    padding-bottom: 0;
   }
 
   .hub-heading-orbit-two,

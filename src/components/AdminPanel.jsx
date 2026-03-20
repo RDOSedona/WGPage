@@ -135,6 +135,8 @@ export default function AdminPanel({
   onRevertContent,
   statusMessage = '',
   version = '0.2.8',
+  showHomeWaveFooter = true,
+  onToggleHomeWaveFooter = null,
 }) {
   const [feedback, setFeedback] = useState('Export JSON to keep or share a snapshot of the current page.');
   const pageLabel = content?.branding?.mark ?? content?.branding?.title ?? 'page';
@@ -215,6 +217,29 @@ export default function AdminPanel({
         </div>
 
         <div className="admin-panel-scroll">
+          {typeof onToggleHomeWaveFooter === 'function' ? (
+            <section className="admin-section">
+              <SectionHeader
+                icon={Settings2}
+                title="Homepage Display"
+                description="Control the shared wave footer that appears on the homepage."
+              />
+
+              <div className="admin-stack">
+                <article className="admin-item-card">
+                  <div className="admin-item-header">
+                    <h4>Homepage Waves</h4>
+                  </div>
+                  <ToggleField
+                    label="Show homepage wave footer"
+                    checked={showHomeWaveFooter}
+                    onChange={onToggleHomeWaveFooter}
+                  />
+                </article>
+              </div>
+            </section>
+          ) : null}
+
           <section className="admin-section">
             <SectionHeader
               icon={Settings2}

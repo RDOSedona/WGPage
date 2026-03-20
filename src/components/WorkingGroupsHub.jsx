@@ -72,6 +72,7 @@ export default function WorkingGroupsHub({
   homeHref,
   groupHrefs = {},
   seriesHref,
+  showWaveFooter = true,
   protectedGroupNumbers = new Set(),
   lockPrompt = null,
   onProtectedGroupRequest,
@@ -117,7 +118,7 @@ export default function WorkingGroupsHub({
   };
 
   return (
-    <div className="page-shell page-shell-hub">
+    <div className={`page-shell page-shell-hub ${showWaveFooter ? '' : 'page-shell-hub-no-wave'}`.trim()}>
       <div className="page-ambience" aria-hidden="true">
         <span className="ambient-blob ambient-blob-one" />
         <span className="ambient-blob ambient-blob-two" />
@@ -141,7 +142,7 @@ export default function WorkingGroupsHub({
         </div>
       </header>
 
-      <main className="hub-main">
+      <main className={`hub-main ${showWaveFooter ? '' : 'hub-main-no-wave'}`.trim()}>
         <motion.section className="hub-grid-section" {...reveal()}>
           <div className="hub-heading">
             <div className="hub-heading-ambient" aria-hidden="true">
@@ -218,7 +219,7 @@ export default function WorkingGroupsHub({
         </motion.section>
       </main>
 
-      <HubWaveBackdrop />
+      {showWaveFooter ? <HubWaveBackdrop /> : null}
 
       {lockPrompt ? (
         <div className="hub-lock-overlay" role="presentation">
