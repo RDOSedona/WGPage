@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
   CalendarDays,
+  ChevronDown,
   ExternalLink,
   FileText,
   LockKeyhole,
@@ -92,6 +93,7 @@ function SectionHeading({ section }) {
 
 export default function WorkingGroupPage({ content, homeHref = null }) {
   const { branding, navigation, hero, sections, footer, seo } = content;
+  const [showScrollCue, setShowScrollCue] = useState(true);
   const heroActions = (hero.actions ?? []).filter(
     (action) => action?.enabled !== false && action?.label?.trim() && action?.href?.trim(),
   );
@@ -126,6 +128,27 @@ export default function WorkingGroupPage({ content, homeHref = null }) {
       }
     }
   }, [seo]);
+
+  useEffect(() => {
+    const syncScrollCue = () => {
+      setShowScrollCue(window.scrollY < 96);
+    };
+
+    syncScrollCue();
+    window.addEventListener('scroll', syncScrollCue, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', syncScrollCue);
+    };
+  }, []);
+
+  const handleScrollCueClick = () => {
+    const firstSection = document.getElementById(sections.activities.id);
+
+    if (firstSection) {
+      firstSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <div className="page-shell">
@@ -228,6 +251,28 @@ export default function WorkingGroupPage({ content, homeHref = null }) {
             </div>
           </motion.aside>
         </motion.section>
+
+        <AnimatePresence>
+          {showScrollCue ? (
+            <motion.div
+              className="hero-scroll-cue-wrap"
+              initial={{ opacity: 0, y: -8, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: -12, height: 0 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <button className="hero-scroll-cue" type="button" onClick={handleScrollCueClick}>
+                <span className="hero-scroll-cue-copy">
+                  <span className="hero-scroll-cue-label">Scroll down</span>
+                  <span className="hero-scroll-cue-text">Explore the working group details</span>
+                </span>
+                <span className="hero-scroll-cue-icon" aria-hidden="true">
+                  <ChevronDown size={18} />
+                </span>
+              </button>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
 
         <section className="section" id={sections.activities.id}>
           <SectionHeading section={sections.activities} />
